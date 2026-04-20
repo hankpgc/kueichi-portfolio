@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KUEICHI — Embedded Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #0f0f18;
+      --surface: #13131f;
+      --border: #1e1e32;
+      --accent: #5fffb0;
+      --accent2: #5b8cff;
+      --text: #e8e8f0;
+      --muted: #6b6b8a;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(95,255,176,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(95,255,176,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* SECTIONS */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 8rem;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    h1.hero-name {
+      font-family: var(--sans);
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    .hero-name span {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent);
+    }
+
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+    }
+
+    .hero-subtitle b { color: var(--accent2); font-weight: 400; }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 700;
+      border: none;
+    }
+    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2.section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p b { color: var(--text); font-weight: 600; }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .stat-card .num {
+      font-family: var(--mono);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-card .label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .skill-group:hover { border-color: var(--accent2); }
+
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: transparent;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-type {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .project-desc {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .project-tags .tag {
+      font-size: 0.65rem;
+      color: var(--accent2);
+      border-color: rgba(91,140,255,0.2);
+      background: rgba(91,140,255,0.06);
+    }
+
+    /* N8N */
+    .n8n-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+    }
+
+    .n8n-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .n8n-badge {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .n8n-flows {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .flow-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      background: var(--bg2);
+    }
+
+    .flow-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .flow-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .flow-desc {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .contact-icon {
+      font-family: var(--mono);
+      font-size: 1.2rem;
+      width: 2rem;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    .contact-info strong {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .contact-info span {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    footer span { color: var(--accent); }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .about-grid,
+      .projects-grid,
+      .contact-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">kueichi.dev</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#automation">Automation</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-tag">// Embedded Software Engineer</div>
+    <h1 class="hero-name">KUE<span>ICHI</span></h1>
+    <p class="hero-subtitle">
+      Building systems from <b>firmware to cloud</b>.<br>
+      Robotics · Embedded Systems · Workflow Automation
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="fade-in">
+      <div class="section-label">// 01 — About</div>
+      <h2 class="section-title">Who I Am</h2>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <p>
+          Master's graduate in <b>Software Engineering</b> from Taiwan, with hands-on experience
+          in embedded systems, ROS robotics, and deep learning.
+        </p>
+        <p>
+          I enjoy working close to the hardware — writing C/C++ for constrained environments,
+          designing robot navigation stacks, and building automation workflows that actually work.
+        </p>
+        <p>
+          Currently seeking <b>embedded software / firmware engineering</b> roles where I can
+          contribute across the full stack — from bare metal to application layer.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="num">ROS</div>
+          <div class="label">Nav Stack · SLAM · DDS</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">C/C++</div>
+          <div class="label">Embedded · Linux · POSIX</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">DL</div>
+          <div class="label">Medical Imaging · AUC 0.872</div>
+        </div>
+        <div class="stat-card">
+          <div class="num">n8n</div>
+          <div class="label">Workflow Automation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="fade-in">
+      <div class="section-label">// 02 — Skills</div>
+      <h2 class="section-title">Technical Stack</h2>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-group">
+        <div class="skill-group-title">Embedded & Systems</div>
+        <div class="skill-tags">
+          <span class="tag">C / C++</span>
+          <span class="tag">Linux</span>
+          <span class="tag">POSIX / pthreads</span>
+          <span class="tag">IPC</span>
+          <span class="tag">Memory Management</span>
+          <span class="tag">Firmware</span>
+          <span class="tag">UART / SPI / I2C</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Robotics</div>
+        <div class="skill-tags">
+          <span class="tag">ROS 1 / ROS 2</span>
+          <span class="tag">Nav2</span>
+          <span class="tag">GMapping / AMCL</span>
+          <span class="tag">DWA Planner</span>
+          <span class="tag">SLAM</span>
+          <span class="tag">DDS / QoS</span>
+          <span class="tag">NeuronBot</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Deep Learning</div>
+        <div class="skill-tags">
+          <span class="tag">PyTorch</span>
+          <span class="tag">DenseNet-121</span>
+          <span class="tag">MobileNetV2</span>
+          <span class="tag">I3D CNN</span>
+          <span class="tag">SHAP / Grad-CAM</span>
+          <span class="tag">Medical Imaging</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools & Platforms</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Git</span>
+          <span class="tag">Flask</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">n8n</span>
+          <span class="tag">WSL 2</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="fade-in">
+      <div class="section-label">// 03 — Projects</div>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+    <div class="projects-grid fade-in">
+      <div class="project-card">
+        <div class="project-type">Robotics / ROS 2</div>
+        <div class="project-name">Sign Language Recognition Care Robot</div>
+        <div class="project-desc">
+          Autonomous navigation robot capable of recognizing sign language gestures
+          in real-time. Integrates I3D CNN + MobileNetV2+LSTM for gesture recognition
+          with ROS NeuronBot SLAM navigation.
+        </div>
+        <div class="project-tags">
+          <span class="tag">ROS</span>
+          <span class="tag">I3D CNN</span>
+          <span class="tag">MobileNetV2</span>
+          <span class="tag">SLAM</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-type">Deep Learning / Medical AI</div>
+        <div class="project-name">ILD/COPD Mortality Prediction</div>
+        <div class="project-desc">
+          Multimodal deep learning model predicting one-year mortality risk for
+          ILD/COPD patients. Industry-academic collaboration achieving AUC 0.872
+          using DenseNet-121 with interpretability via SHAP and Grad-CAM.
+        </div>
+        <div class="project-tags">
+          <span class="tag">DenseNet-121</span>
+          <span class="tag">SHAP</span>
+          <span class="tag">Grad-CAM</span>
+          <span class="tag">PyTorch</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-type">Backend / IoT</div>
+        <div class="project-name">Campus Broadcast Automation System</div>
+        <div class="project-desc">
+          Automated school broadcast system integrating UHF RFID readers, SQL Server
+          database, and TTS engine. Flask backend with Web Serial API frontend for
+          cross-platform compatibility.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Flask</span>
+          <span class="tag">UHF RFID</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">Web Serial API</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-type">Systems / Networking</div>
+        <div class="project-name">Home Surveillance & NAS Infrastructure</div>
+        <div class="project-desc">
+          Self-hosted home lab with Frigate NVR on Docker/WSL 2, RTSP camera
+          integration (Tapo C200), and NAS management for network-attached storage
+          and container orchestration.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Frigate NVR</span>
+          <span class="tag">WSL 2</span>
+          <span class="tag">RTSP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- N8N AUTOMATION -->
+  <section id="automation">
+    <div class="fade-in">
+      <div class="section-label">// 04 — Automation</div>
+      <h2 class="section-title">n8n Workflows</h2>
+    </div>
+    <div class="n8n-section fade-in">
+      <div class="n8n-header">
+        <div class="n8n-badge">n8n</div>
+        <p style="font-family: var(--mono); font-size: 0.8rem; color: var(--muted);">
+          Self-hosted workflow automation — connecting APIs, data, and services.
+        </p>
+      </div>
+      <div class="n8n-flows">
+        <div class="flow-card">
+          <div class="flow-icon">⚙️</div>
+          <div class="flow-name">Add Your Flow Here</div>
+          <div class="flow-desc">Description of what this automation does and what APIs it connects.</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-icon">🔗</div>
+          <div class="flow-name">Add Your Flow Here</div>
+          <div class="flow-desc">Description of what this automation does and what APIs it connects.</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-icon">📊</div>
+          <div class="flow-name">Add Your Flow Here</div>
+          <div class="flow-desc">Description of what this automation does and what APIs it connects.</div>
+        </div>
+        <div class="flow-card">
+          <div class="flow-icon">🤖</div>
+          <div class="flow-name">Add Your Flow Here</div>
+          <div class="flow-desc">Description of what this automation does and what APIs it connects.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="fade-in">
+      <div class="section-label">// 05 — Contact</div>
+      <h2 class="section-title">Get in Touch</h2>
+    </div>
+    <div class="contact-grid fade-in">
+      <a class="contact-link" href="mailto:your@email.com">
+        <div class="contact-icon">@</div>
+        <div class="contact-info">
+          <strong>Email</strong>
+          <span>your@email.com</span>
+        </div>
+      </a>
+      <a class="contact-link" href="https://github.com/kueichi" target="_blank">
+        <div class="contact-icon">GH</div>
+        <div class="contact-info">
+          <strong>GitHub</strong>
+          <span>github.com/kueichi</span>
+        </div>
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/kueichi" target="_blank">
+        <div class="contact-icon">in</div>
+        <div class="contact-info">
+          <strong>LinkedIn</strong>
+          <span>linkedin.com/in/kueichi</span>
+        </div>
+      </a>
+      <a class="contact-link" href="/resume.pdf" target="_blank">
+        <div class="contact-icon">↓</div>
+        <div class="contact-info">
+          <strong>Resume</strong>
+          <span>Download PDF</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>kueichi.dev</span> — Built with HTML · Hosted on Cloudflare Pages
+  </footer>
+
+  <script>
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
