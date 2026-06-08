@@ -219,6 +219,7 @@
   let recognition = null;
   let listening = false;
   let finalText = '';
+  let lastAdded = '';
 
   function showError(msg) {
     errorEl.textContent = msg;
@@ -260,7 +261,10 @@
         const t = e.results[i][0].transcript;
         if (e.results[i].isFinal) {
           const trimmed = t.trim();
-          if (trimmed) finalText += trimmed + '\n';
+          if (trimmed && trimmed !== lastAdded) {
+            finalText += trimmed + '\n';
+            lastAdded = trimmed;
+          }
         } else {
           interim += t;
         }
@@ -279,8 +283,7 @@
 
     rec.onend = () => {
       if (listening) {
-        recognition = buildRecognition();
-        try { recognition.start(); } catch (_) {}
+        try { rec.start(); } catch (_) {}
       } else {
         statusEl.textContent = '待命';
         toggleText.textContent = '開始辨識';
@@ -303,6 +306,7 @@
 
   clearBtn.addEventListener('click', () => {
     finalText = '';
+    lastAdded = '';
     render('');
   });
 
