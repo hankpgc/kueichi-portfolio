@@ -236,8 +236,8 @@
       return;
     }
     output.innerHTML =
-      '<span id="final">' + finalText + '</span>' +
-      (interim ? '<span id="interim">' + interim + '</span>' : '');
+      '<span id="final">' + finalText.trimEnd() + '</span>' +
+      (interim ? '<span id="interim"> ' + interim + '</span>' : '');
   }
 
   function buildRecognition() {
@@ -259,7 +259,8 @@
       for (let i = e.resultIndex; i < e.results.length; i++) {
         const t = e.results[i][0].transcript;
         if (e.results[i].isFinal) {
-          finalText += t + '\n';
+          const trimmed = t.trim();
+          if (trimmed) finalText += trimmed + '\n';
         } else {
           interim += t;
         }
@@ -277,9 +278,9 @@
     };
 
     rec.onend = () => {
-      // continuous 模式偶爾會自動結束，若使用者仍想聽就重啟
       if (listening) {
-        try { rec.start(); } catch (_) {}
+        recognition = buildRecognition();
+        try { recognition.start(); } catch (_) {}
       } else {
         statusEl.textContent = '待命';
         toggleText.textContent = '開始辨識';
