@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>KUEICHI — Embedded Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg: #0a0a0f;
@@ -20,9 +23,17 @@
       --sans: 'Syne', sans-serif;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background: var(--bg);
@@ -38,8 +49,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(95,255,176,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(95,255,176,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(95, 255, 176, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(95, 255, 176, 0.03) 1px, transparent 1px);
       background-size: 48px 48px;
       pointer-events: none;
       z-index: 0;
@@ -48,13 +59,15 @@
     /* NAV */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       padding: 1.25rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(10,10,15,0.85);
+      background: rgba(10, 10, 15, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -81,7 +94,10 @@
       text-transform: uppercase;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--accent); }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
 
     /* SECTIONS */
     section {
@@ -137,7 +153,10 @@
       animation: fadeUp 0.6s 0.6s forwards;
     }
 
-    .hero-subtitle b { color: var(--accent2); font-weight: 400; }
+    .hero-subtitle b {
+      color: var(--accent2);
+      font-weight: 400;
+    }
 
     .hero-cta {
       display: flex;
@@ -164,14 +183,23 @@
       font-weight: 700;
       border: none;
     }
-    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
 
     .btn-ghost {
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
     }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
 
     /* SECTION LABEL */
     .section-label {
@@ -206,7 +234,10 @@
       margin-bottom: 1rem;
     }
 
-    .about-text p b { color: var(--text); font-weight: 600; }
+    .about-text p b {
+      color: var(--text);
+      font-weight: 600;
+    }
 
     .about-stats {
       display: grid;
@@ -251,7 +282,10 @@
       padding: 1.5rem;
       transition: border-color 0.2s;
     }
-    .skill-group:hover { border-color: var(--accent2); }
+
+    .skill-group:hover {
+      border-color: var(--accent2);
+    }
 
     .skill-group-title {
       font-family: var(--mono);
@@ -272,7 +306,7 @@
       font-family: var(--mono);
       font-size: 0.72rem;
       color: var(--text);
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border);
       padding: 0.3rem 0.6rem;
       border-radius: 4px;
@@ -298,7 +332,9 @@
     .project-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       opacity: 0;
@@ -308,9 +344,12 @@
     .project-card:hover {
       border-color: transparent;
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     }
-    .project-card:hover::before { opacity: 1; }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
 
     .project-type {
       font-family: var(--mono);
@@ -346,8 +385,8 @@
     .project-tags .tag {
       font-size: 0.65rem;
       color: var(--accent2);
-      border-color: rgba(91,140,255,0.2);
-      background: rgba(91,140,255,0.06);
+      border-color: rgba(91, 140, 255, 0.2);
+      background: rgba(91, 140, 255, 0.06);
     }
 
     /* N8N */
@@ -466,7 +505,9 @@
       z-index: 1;
     }
 
-    footer span { color: var(--accent); }
+    footer span {
+      color: var(--accent);
+    }
 
     /* DIVIDER */
     .divider {
@@ -477,8 +518,15 @@
 
     /* ANIMATIONS */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .fade-in {
@@ -486,17 +534,28 @@
       transform: translateY(20px);
       transition: opacity 0.6s, transform 0.6s;
     }
-    .fade-in.visible { opacity: 1; transform: none; }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 700px) {
+
       .about-grid,
       .projects-grid,
-      .contact-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAV -->
@@ -514,7 +573,7 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-tag">// Embedded Software Engineer</div>
-    <h1 class="hero-name">KUE<span>ICHI</span></h1>
+    <h1 class="hero-name">KUEI<span>CHI</span></h1>
     <p class="hero-subtitle">
       Building systems from <b>firmware to cloud</b>.<br>
       Robotics · Embedded Systems · Workflow Automation
@@ -795,4 +854,5 @@
   </script>
 
 </body>
+
 </html>
