@@ -540,6 +540,46 @@
       transform: none;
     }
 
+    /* PROJECT LINKS */
+    .project-footer {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent2);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+    }
+
+    /* HAMBURGER */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1.1rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .nav-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     /* RESPONSIVE */
     @media (max-width: 700px) {
 
@@ -549,8 +589,36 @@
         grid-template-columns: 1fr;
       }
 
+      .nav-toggle {
+        display: block;
+      }
+
       .nav-links {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 15, 0.97);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        gap: 0;
+        padding: 0.5rem 0;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links li {
+        width: 100%;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 0.9rem 2rem;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -561,13 +629,15 @@
   <!-- NAV -->
   <nav>
     <div class="nav-logo">kueichi.dev</div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#automation">Automation</a></li>
+      <li><a href="speech-recognition.html">Tools</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
   </nav>
 
   <!-- HERO -->
@@ -711,6 +781,9 @@
           <span class="tag">SLAM</span>
           <span class="tag">Python</span>
         </div>
+        <div class="project-footer">
+          <a class="project-link" href="https://github.com/kueichi" target="_blank">GitHub →</a>
+        </div>
       </div>
       <div class="project-card">
         <div class="project-type">Deep Learning / Medical AI</div>
@@ -725,6 +798,9 @@
           <span class="tag">SHAP</span>
           <span class="tag">Grad-CAM</span>
           <span class="tag">PyTorch</span>
+        </div>
+        <div class="project-footer">
+          <a class="project-link" href="https://github.com/kueichi" target="_blank">GitHub →</a>
         </div>
       </div>
       <div class="project-card">
@@ -741,6 +817,9 @@
           <span class="tag">SQL Server</span>
           <span class="tag">Web Serial API</span>
         </div>
+        <div class="project-footer">
+          <a class="project-link" href="https://github.com/kueichi" target="_blank">GitHub →</a>
+        </div>
       </div>
       <div class="project-card">
         <div class="project-type">Systems / Networking</div>
@@ -755,6 +834,9 @@
           <span class="tag">Frigate NVR</span>
           <span class="tag">WSL 2</span>
           <span class="tag">RTSP</span>
+        </div>
+        <div class="project-footer">
+          <a class="project-link" href="https://github.com/kueichi" target="_blank">GitHub →</a>
         </div>
       </div>
     </div>
@@ -842,6 +924,12 @@
 
   <footer>
     <span>kueichi.dev</span> — Built with HTML · Hosted on Cloudflare Pages
+    <div style="margin-top:0.75rem; display:flex; gap:1.5rem; justify-content:center;">
+      <a href="https://github.com/kueichi" target="_blank" style="color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:0.68rem;">GitHub</a>
+      <a href="https://linkedin.com/in/kueichi" target="_blank" style="color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:0.68rem;">LinkedIn</a>
+      <a href="speech-recognition.html" style="color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:0.68rem;">Speech Tool</a>
+      <a href="/resume.pdf" target="_blank" style="color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:0.68rem;">Resume</a>
+    </div>
   </footer>
 
   <script>
@@ -851,6 +939,22 @@
       { threshold: 0.1 }
     );
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Mobile hamburger menu
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    toggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        toggle.setAttribute('aria-expanded', false);
+        toggle.textContent = '☰';
+      });
+    });
   </script>
 
 </body>
